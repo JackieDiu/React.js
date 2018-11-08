@@ -1,0 +1,22 @@
+                const promise = userService.create(data)
+                return promise
+                    .then((response) => {
+                        let userId = response.item
+                        let promise1;
+                        let promise2;
+                        let promise3;
+                        if (this.state.userTypeId.value === "3" && coachExpertiseData.expertisePicked.length) {
+                            coachExpertiseData.userId = userId
+                            promise1 = userCoachExpertiseService.create(coachExpertiseData)
+                        }
+                        if (this.state.userTypeId.value === "3" && resourceData.resourcesId) {
+                            resourceData.userId = userId
+                            promise2 = resourcesUserService.create(resourceData)
+                        }
+                        if (Object.keys(profileDataObj).length !== 0) {
+                            profileDataObj.userId = userId;
+                            promise3 = userProfileInfoService.create(profileDataObj)
+                        }
+                        const promise4 = Promise.all([promise1, promise2, promise3])
+                        return promise4
+                    })
