@@ -1,0 +1,44 @@
+    componentDidMount() {
+        const promise1 = userCoachExpertiseService.readAll()
+        return promise1
+            .then(responseData => {
+                const coachExpertise = responseData.items.map(item => {
+                    return {
+                        value: item.id
+                        , label: item.expertise
+                    }
+                })
+                this.setState({
+                    expertiseList: coachExpertise
+                })
+            })
+            .then(() => { 
+                if(this.props.userId) {
+                let userId = this.props.userId
+                const promise2 = userCoachExpertiseService.readByUserId(userId)
+                return promise2
+                }
+            })
+            .then(responseData => {
+                const expertiseSelected = responseData.items.map(item => {
+                    const id = item.coachExpertiseId
+                    const index = this.state.expertiseList.findIndex(item => {
+                        return item.value === id
+                    })
+                    const expertiseName = this.state.expertiseList[index].label;
+                    item.label = expertiseName
+                    return item;                    
+                })
+                const expertiseNameArr = expertiseSelected.map(item => {
+                    return {
+                        value: item.coachExpertiseId
+                        , label: item.label
+                        , id: item.id
+                    }
+                });
+                this.setState({
+                    coachExpertiseWithName: expertiseNameArr
+                })
+            })
+            .catch(console.log)
+        }
