@@ -1,0 +1,17 @@
+    componentDidMount() {
+        const promise = resourceService.getAll()
+        .then(responseData => {
+          this.setState({
+            resourceList: responseData.items.map(item => {
+                return {
+                    value: item.id
+                    , label: item.companyName
+                }
+            })
+          })
+        })
+      .catch(console.log)
+      return promise
+      }
+      
+      //upon modal pop-up, I needed to display into a React-Select dropdown, mapping the list into the React-Select syntax requirement.
