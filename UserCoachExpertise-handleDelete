@@ -1,0 +1,16 @@
+    onHandleChange(value) {
+        if (this.state.coachExpertiseWithName.length < value.length) {
+            this.setState({
+                coachExpertiseWithName: value
+            })
+            this.setExpertiseProp(this.state.coachExpertiseWithName)
+        } else {
+            let difference = this.state.coachExpertiseWithName.filter(x => !value.includes(x))
+            this.setState({
+                coachExpertiseWithName: value
+            })
+            let deletedId = difference[0].id 
+            const promise = userCoachExpertiseService.del(deletedId)
+            return promise
+        }
+    }
