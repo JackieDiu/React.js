@@ -1,0 +1,35 @@
+    fileTypeHandleChange(value) {
+        this.setState({
+            fileType: value.label
+        })
+        console.log(value.label)
+    }
+
+    onGetImageUploader(url) {
+        this.setState({
+            fileUrl: url
+        })
+        console.log('imgUploader:', url)
+    }
+ 
+    onSubmit() {
+        const data = {
+            title: this.state.title
+            , description: this.state.description
+            , fileUrl: this.state.fileUrl
+            , fileType: this.state.fileType
+        }
+        if(this.state.editMode) {
+            const formId = this.props.match.params.id;
+            const promise = learningResourceService.update(formId, data)
+            promise
+                .then(() => this.props.history.push('/data-management/learning-resource/list'))
+                .catch(console.error)
+            return promise
+        } else {
+        const promise = learningResourceService.create(data)
+            .then(() => this.props.history.push('/data-management/learning-resource/list'))
+            .catch(console.error)
+        return promise
+        }
+    }
