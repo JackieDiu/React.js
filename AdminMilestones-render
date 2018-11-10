@@ -1,0 +1,14 @@
+        const milestoneList = this.state.milestones && this.state.milestones.map(item => {
+            if (!item.isCustomCreateByMentor) {
+                return <tbody key={item.id}>
+                    <tr style={{ whiteSpace: 'nowrap' }}>
+                        <td>{item.id}</td>
+                        <td>{item.description}</td>
+                        <td><button type="button" className="btn btn-light btn--icon" onClick={e => { this.onItemClick(item.id, e) }}>
+                            <i className="zmdi zmdi-edit zmdi-hc-fw"></i></button>
+                            <button type="button" className="btn btn-light btn--icon" onClick={e => { this.onDelete(item.id, e) }}>
+                                <i className="zmdi zmdi-delete zmdi-hc-fw"></i></button></td>
+                    </tr>
+                </tbody>
+            }
+        })
