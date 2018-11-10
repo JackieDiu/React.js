@@ -1,0 +1,27 @@
+    handleChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        this.setState({ 
+            [name]: value 
+        })
+        if (value) {
+            const data = {
+                mentorId: this.props.userProfile.userId
+                , answerOptionId: this.props.answerOptionId
+            }
+            const promise = mentorAnswerOption.create(data)
+            return promise
+                .then(responseData => {
+                    console.log(JSON.stringify(responseData))
+                    this.setState({
+                      id: responseData.item
+                    })
+                })
+                .catch(console.error)
+        } else {
+            const id = this.state.id
+            const promise = mentorAnswerOption.del(id)
+            return promise
+        } 
+    }
