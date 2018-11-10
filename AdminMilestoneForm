@@ -1,0 +1,27 @@
+    handleChange(event) {
+        const target = event.target;
+        const value = target.type === "checkbox" ? target.checked : target.value;
+        const name = target.name;
+        
+        this.setState({ [name]: value })
+    }
+
+    onSubmit() {
+        const data = {
+            description: this.state.description
+            , isCustomCreateByMentor: this.state.isCustomCreateByMentor
+            , customMentorId: this.state.customMentorId
+        }
+            if (this.state.editMode) {
+                const formId = this.props.match.params.id;
+                const promise = milestoneService.updateMilestone(formId, data)
+                return promise
+                    .then(() => this.props.history.push('/data-management/admin-milestone/list/'))
+                    .catch(console.log)
+            } else {
+                const promise = milestoneService.createMilestone(data)
+                return promise
+                    .then(() => this.props.history.push('/data-management/admin-milestone/list/'))
+                    .catch(console.log)
+            }
+        }
