@@ -1,0 +1,18 @@
+    fileSelectedHandler = event => {
+        const file = event.target.files[0];
+        console.log("show img", file)
+        const img = {
+            name: file.name
+            , type: file.type
+        }
+        const promise = fileUploadService.getSignedUrl(img)
+        promise
+            .then(response => { 
+                console.log(response)
+                const promise = fileUploadService.upload(response.url, file)
+                this.props.passToImageUploader(response.url)
+                return promise
+
+            })
+            .catch(console.error)
+    }
